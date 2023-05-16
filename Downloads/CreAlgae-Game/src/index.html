@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreAlgae Carbon Footprint Comparison Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #56d4569c; /* You can change the color code to your desired shade of green */
+        }
+    </style>
+</head>
+<body>
+    <h1>CreAlgae Carbon Footprint Comparison Game</h1>
+    <p>Compare the carbon footprint of CreAlgae plastic with traditional fossil fuel-based plastic!</p>
+    <form id="footprint-form">
+        <label for="glycerin">Glycerin (grams):</label>
+        <input type="number" id="glycerin" min="0" step="0.01" required>
+        <br>
+        <label for="dehydrator-time">Dehydrator Time (hours):</label>
+        <input type="number" id="dehydrator-time" min="0" step="0.01" required>
+        <br>
+        <label for="starch">Starch (grams):</label>
+        <input type="number" id="starch" min="0" step="0.01" required>
+        <br>
+        <label for="guar-gum">Guar Gum (grams):</label>
+        <input type="number" id="guar-gum" min="0" step="0.01" required>
+        <br>
+        <label for="carrageenan">Carrageenan (grams):</label>
+        <input type="number" id="carrageenan" min="0" step="0.01" required>
+        <br>
+        <button type="submit">Calculate Carbon Footprint</button>
+    </form>
+    <div id="results" class="hidden">
+        <h2>Carbon Footprint Results</h2>
+        <p>
+            CreAlgae Plastic: <span id="cre-algae-footprint"></span> kg CO2-eq
+        </p>
+        <p>
+            Fossil Fuel-based Plastic: <span id="fossil-fuel-footprint"></span> kg CO2-eq
+        </p>
+    </div>
+    <div id="fun-fact"></div>
+    <img src="CA_50.png" alt="Artsy algae!" style="display: block; margin: 50px; align-items: center;">
+    <script src="script.js"></script>
+</body>
+</html>
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #56d4569c; /* You can change the color code to your desired shade of green */
+      
+}
+
+h1, h2 {
+    color: #2c3e50;
+}
+
+label {
+    display: inline-block;
+    width: 200px;
+}
+
+input, button {
+    margin: 5px 0;
+}
+
+button {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#results {
+    margin-top: 30px;
+}
+
+.hidden {
+    display: none;
+}
+
+document.getElementById("footprint-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const glycerin = parseFloat(document.getElementById("glycerin").value);
+    const dehydratorTime = parseFloat(document.getElementById("dehydrator-time").value);
+    const starch = parseFloat(document.getElementById("starch").value);
+    const guarGum = parseFloat(document.getElementById("guar-gum").value);
+    const carrageenan = parseFloat(document.getElementById("carrageenan").value);
+    
+    const glycerinFP = 4.5;
+    const dehydratorFP = 2.8;
+    const starchFP = 2;
+    const guarGumFP = 3.1;
+    const carrageenanFP = 2.1;
+    
+    const fossilFuelFootprint = 2.5; // Using an average value for fossil fuel-based plastic
+    
+    const creAlgaeFootprint = (
+        glycerin * glycerinFP / 1000 +
+        dehydratorTime * dehydratorFP / 24 +
+        starch * starchFP / 1000 +
+        guarGum * guarGumFP / 1000 +
+        carrageenan * carrageenanFP / 1000
+    ).toFixed(2);
+    
+    document.getElementById("cre-algae-footprint").textContent = creAlgaeFootprint;
+    document.getElementById("fossil-fuel-footprint").textContent = fossilFuelFootprint;
+    
+    document.getElementById("results").classList.remove("hidden");
+
+    // Display a random fun fact
+    const funFacts = [
+        "Did you know? CreAlgae sources its algae from Boneyard Creek, a local waterway that runs through the heart of Urbana-Champaign.",
+        "Did you know? More than 380 million tonnes of plastic waste is produced annually. With 22% being mismanaged, a small 9% of plastic waste is actually properly recycled. CreAlgae's plastic is biodegradable, ensuring that it will never end up becoming harmful waste.",
+        "Did you know? Per annum, there are 8 million pieces of plastic that make their way into America's bodies of water. By providing a biodegradable bioplastic, CreAlgae ensures that our plastic will never be among them.",
+        "Did you know? Eutrophication is the process by which algae absorbs minerals from the surrounding water. During this process, algae blooms expand; the larger they get, the more of a risk they pose to the health of the surrounding agriculture.",
+        // Add more fun facts here
+    ];
+
+    const randomIndex = Math.floor(Math.random() * funFacts.length);
+    const randomFunFact = funFacts[randomIndex];
+    const funFactElement = document.getElementById("fun-fact");
+    funFactElement.textContent = randomFunFact;
+});
